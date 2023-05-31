@@ -1,3 +1,5 @@
+require 'cgi'
+
 class MicrosoftGraph
   class CollectionAssociation < Collection
     attr_reader :type
@@ -34,7 +36,7 @@ class MicrosoftGraph
     end
 
     def find(id)
-      if response = graph.service.get("#{path}/#{URI.escape(id.to_s)}")
+      if response = graph.service.get("#{path}/#{CGI::escape(id.to_s)}")
         klass = if member_type = specified_member_type(response)
           ClassBuilder.get_namespaced_class(response)
         else
